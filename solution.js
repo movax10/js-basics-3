@@ -4,7 +4,7 @@ function range(start, end, step) {
   var _range = function(start, end, step, arr){
     if (!step) return _range(start, end, 1, arr);
     if ((end - start) * step < 0) return arr;
-	else return _range(start + step, end, step, arr.concat([start]));
+    else return _range(start + step, end, step, arr.concat([start]));
   }
   return _range(start, end, step, []);
 }
@@ -14,7 +14,7 @@ function sum(numbers) {
   // and returns the sum of these numbers.
   var _sum = function(arr, acc){
     if (arr.length < 1) return acc;
-	acc += arr[arr.length - 1];
+    acc += arr[arr.length - 1];
     return _sum(arr.slice(0, -1), acc);
   }
   return _sum(numbers, 0);
@@ -25,8 +25,8 @@ function reverseArray(arr) {
   // and produces a new array that has the same elements in the inverse order.
   var _reverse = function(arr, arrNew){
     if (arr.length < 1) return arrNew;
-	arrNew.push(arr[arr.length - 1]);
-	return _reverse(arr.slice(0, -1), arrNew);
+    arrNew.push(arr[arr.length - 1]);
+    return _reverse(arr.slice(0, -1), arrNew);
   }
   return _reverse(arr, []);
 }
@@ -37,10 +37,10 @@ function reverseArrayInPlace(arr) {
   // its elements. It should not use the standard reverse method.
   var _reverse = function(arr, i){
     if (i < 0) return arr;
-	arr[i] = arr[i] + arr[arr.length - 1 - i];
-	arr[arr.length - 1 - i] = arr[i] - arr[arr.length - 1 - i];
-	arr[i] = arr[i] - arr[arr.length - 1 - i];
-	return _reverse(arr, i - 1);
+    arr[i] = arr[i] + arr[arr.length - 1 - i];
+    arr[arr.length - 1 - i] = arr[i] - arr[arr.length - 1 - i];
+    arr[i] = arr[i] - arr[arr.length - 1 - i];
+    return _reverse(arr, i - 1);
   }
   return _reverse(arr, ~~((arr.length - 1)/2));
 }
@@ -69,7 +69,7 @@ function arrayToList(arr) {
   // helper function prepend.
   var _arrayToList = function(arr, list) {
     if (arr.length < 1) return list;
-	else return _arrayToList(arr.slice(0, -1), prepend(arr[arr.length - 1], list));
+    else return _arrayToList(arr.slice(0, -1), prepend(arr[arr.length - 1], list));
   }
   return _arrayToList(arr, null);
 }
@@ -78,7 +78,7 @@ function listToArray(list) {
   // Write a function that produces an array from a list
   var _listToArray = function(list, arr){
     if (list == null) return arr;
-	else return _listToArray(list.rest, arr.concat([list.value]));
+    else return _listToArray(list.rest, arr.concat([list.value]));
   }
   return _listToArray(list, []);
 }
