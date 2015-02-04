@@ -14,8 +14,7 @@ function sum(numbers) {
   // and returns the sum of these numbers.
   var _sum = function(arr, acc){
     if (arr.length < 1) return acc;
-    acc += arr[arr.length - 1];
-    return _sum(arr.slice(0, -1), acc);
+    else return _sum(arr.slice(0, -1), acc + arr[arr.length - 1]);
   }
   return _sum(numbers, 0);
 }
@@ -25,8 +24,7 @@ function reverseArray(arr) {
   // and produces a new array that has the same elements in the inverse order.
   var _reverse = function(arr, arrNew){
     if (arr.length < 1) return arrNew;
-    arrNew.push(arr[arr.length - 1]);
-    return _reverse(arr.slice(0, -1), arrNew);
+    else return _reverse(arr.slice(0, -1), arrNew.concat([arr[arr.length - 1]]));
   }
   return _reverse(arr, []);
 }
