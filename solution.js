@@ -1,52 +1,48 @@
 function range(start, end, step) {
   // Write a range function that takes two arguments, start and end,
   // and returns an array containing all the numbers from start up to (and including) end.
-  step = step || 1;
-  var compareToEnd = function (z) {
-    return start > end ? step <= 0 && z >= end: step >= 0 && z <= end;
-  };
-  var arr = [];
-  for (var i = start; compareToEnd(i); i += step){
-    arr.push(i);
+  var _range = function(start, end, step, arr){
+    if (!step) return _range(start, end, 1, arr);
+    if ((end - start) * step < 0) return arr;
+	else return _range(start + step, end, step, arr.concat([start]));
   }
-  return arr;
+  return _range(start, end, step, []);
 }
 
 function sum(numbers) {
   // Write a sum function that takes an array of numbers
   // and returns the sum of these numbers.
-  var sum = 0;
-  for (var i = 0; i < numbers.length; i++){
-    sum += numbers[i];
+  var _sum = function(arr, acc){
+    if (arr.length < 1) return acc;
+	acc += arr[arr.length - 1];
+    return _sum(arr.slice(0, -1), acc);
   }
-  return sum;
+  return _sum(numbers, 0);
 }
 
 function reverseArray(arr) {
   // Write a function which takes an array as argument
   // and produces a new array that has the same elements in the inverse order.
-  var reversedArr = [];
-  for (var i = arr.length -1; i >= 0; i--){
-    reversedArr.push(arr[i]);
+  var _reverse = function(arr, arrNew){
+    if (arr.length < 1) return arrNew;
+	arrNew.push(arr[arr.length - 1]);
+	return _reverse(arr.slice(0, -1), arrNew);
   }
-  return reversedArr;
+  return _reverse(arr, []);
 }
 
 function reverseArrayInPlace(arr) {
   // Write a function that does what the reverse method does:
   // it modifies the array given as argument in order to reverse
   // its elements. It should not use the standard reverse method.
-  var temp;
-  var count = 0;
-  var reverseCount = arr.length - 1;
-  while (count < reverseCount){
-    temp = arr[count];
-    arr[count] = arr[reverseCount];
-    arr[reverseCount] = temp;
-    count++;
-    reverseCount--;
+  var _reverse = function(arr, i){
+    if (i < 0) return arr;
+	arr[i] = arr[i] + arr[arr.length - 1 - i];
+	arr[arr.length - 1 - i] = arr[i] - arr[arr.length - 1 - i];
+	arr[i] = arr[i] - arr[arr.length - 1 - i];
+	return _reverse(arr, i - 1);
   }
-  return arr;
+  return _reverse(arr, ~~((arr.length - 1)/2));
 }
 
 function arrayToList(arr) {
@@ -71,20 +67,20 @@ function arrayToList(arr) {
   // Write a function arrayToList that builds up a data structure like
   // the previous one when given [1, 2, 3] as argument. It should use
   // helper function prepend.
-  var list = null;
-  for (var i = arr.length - 1; i >= 0; i--)
-  {
-     list = prepend(arr[i], list);
+  var _arrayToList = function(arr, list) {
+    if (arr.length < 1) return list;
+	else return _arrayToList(arr.slice(0, -1), prepend(arr[arr.length - 1], list));
   }
-  return list;
+  return _arrayToList(arr, null);
 }
 
 function listToArray(list) {
   // Write a function that produces an array from a list
-  if (list == null) return [];
-  var arr = [list.value];
-  arr = arr.concat(listToArray(list.rest));
-  return arr;
+  var _listToArray = function(list, arr){
+    if (list == null) return arr;
+	else return _listToArray(list.rest, arr.concat([list.value]));
+  }
+  return _listToArray(list, []);
 }
 
 function prepend(item, list) {
@@ -97,9 +93,8 @@ function nth(n, list) {
   // Write which takes a list and a number and returns the element at the
   // given position in the list, or undefined when there is no such element.
   // It should be recursive.
-  if (n < 0 || list == null) return;
-  if (n == 0) return list.value;
-  return nth(n - 1, list.rest);
+  if (n > 0 && list !== null) return nth(n - 1, list.rest);
+  else if (n == 0) return list.value;
 }
 
 function deepEqual(a, b) {
